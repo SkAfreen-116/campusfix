@@ -1,0 +1,40 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: campusfix-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_secret
+      MYSQL_DATABASE: campusfix
+      MYSQL_USER: campusfix
+      MYSQL_PASSWORD: campusfix_secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "campusfix", "-pcampusfix_secret"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: campusfix-api
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/campusfix?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USER: campusfix
+      DB_PASSWORD: campusfix_secret
+      CORS_ORIGINS: http://localhost:5173,http://localhost:3000
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  mysql_data:
