@@ -1,5 +1,7 @@
 # CampusFix - Campus Issue Tracker
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/SkAfreen-116/campusfix)
+
 **CampusFix** is a streamlined campus problem and maintenance tracking web application. Students, staff, and faculty can report facility issues across campus without needing an account, filter and search through submitted problems, follow the lifecycle of an issue along a validated state machine, and view real-time summary metrics.
 
 ---
